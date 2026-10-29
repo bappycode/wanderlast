@@ -27,6 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Destination } from "@/app/destinations/destinations-view";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const inputClasses = "h-10 rounded-md bg-neutral-50 border-neutral-200";
 
@@ -63,13 +64,17 @@ export function EditDestinationDialog({
     setSaving(true);
 
     try {
+      const token = await getTokenFromClient();
       const data = Object.fromEntries(new FormData(event.currentTarget));
       const payload = { ...data, category };
       const res = await fetch(
         `http://localhost:5000/destinations/${destination._id}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`
+          },
           body: JSON.stringify(payload),
         }
       );

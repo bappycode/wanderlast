@@ -12,21 +12,33 @@ import type { Destination } from "../destinations-view";
 import EditDestinationDialog from "@/components/editDestinationDialog";
 import DeleteDestinationButton from "@/components/deleteDestinationButton";
 import BookingCard from "@/components/booking/bookingCard";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { cache } from "react";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 type DestinationDetail = Destination & {
   reviews?: number;
   highlights?: string[];
 };
 
-async function getDestination(id: string): Promise<DestinationDetail | null> {
+
+const  getDestination = cache(
+  async (id: string): Promise<DestinationDetail | null> => {
+  const token = await getTokenFromServer()
   try {
-    const res = await fetch(`http://localhost:5000/destinations/${id}`);
+    const res = await fetch(`http://localhost:5000/destinations/${id}`,{
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    });
     if (!res.ok) return null;
     return (await res.json()) as DestinationDetail;
   } catch {
     return null;
   }
 }
+)
 
 export async function generateMetadata({
   params,

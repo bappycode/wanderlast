@@ -154,7 +154,7 @@ export function DestinationsView({
   );
 }
 
-function DestinationCard({ destination }: { destination: Destination }) {
+export function DestinationCard({ destination }: { destination: Destination }) {
   return (
     <article>
       <div className="relative aspect-[3/2] overflow-hidden">

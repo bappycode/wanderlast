@@ -13,8 +13,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
-const categories = ["Beach", "Mountains", "Cultural", "Adventure", "City Breaks"];
+const categories = [
+  "Beach",
+  "Mountains",
+  "Cultural",
+  "Adventure",
+  "City Breaks",
+];
 
 const inputClasses = "h-10 rounded-md bg-neutral-50 border-neutral-200";
 
@@ -25,15 +33,16 @@ export function AddDestinationForm() {
   // Posts to the backend (localhost:5000) — body/shape must match its expectation.
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = Object.fromEntries(new FormData(event.currentTarget));
-    console.log("Data from Data", data)
-    const payload = { ...data, category };
-    console.log("Data from Payload", payload)
-
+    const formData = Object.fromEntries(new FormData(event.currentTarget));
+    const payload = { ...formData, category };
+    const token = await getTokenFromClient()
     try {
       const res = await fetch("http://localhost:5000/add-destination", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json" , 
+          authorization: `Bearer ${token}`
+        },
         body: JSON.stringify(payload),
       });
       const response = await res.json();

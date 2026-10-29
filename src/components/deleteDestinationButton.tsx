@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 export function DeleteDestinationButton({
   destinationId,
@@ -35,9 +36,14 @@ export function DeleteDestinationButton({
     setError(null);
     setDeleting(true);
     try {
+      const token = await getTokenFromClient();
       const res = await fetch(
         `http://localhost:5000/destinations/${destinationId}`,
-        { method: "DELETE" }
+        { method: "DELETE",
+          headers: {
+            authorization : `Bearer ${token}`
+          }
+         }
       );
       if (!res.ok) {
         throw new Error(`Request failed with status ${res.status}`);

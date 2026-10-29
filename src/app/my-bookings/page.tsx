@@ -3,14 +3,19 @@ import { auth } from "@/lib/auth"; // path to your Better Auth server instance
 import { headers } from "next/headers";
 import React from "react";
 import { iMyBookingData } from "@/types/MyBookingData";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 const MybookingsPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(), // you need to pass the headers object.
   });
-
+const token = await getTokenFromServer();
   const userEmail = session?.user.email;
-  const res = await fetch(`http://localhost:5000/my-bookings/${userEmail}`);
+  const res = await fetch(`http://localhost:5000/my-bookings/${userEmail}`,{
+    headers: {
+      authorization: `Bearer ${token}`
+    }
+  });
   const myBookingData: iMyBookingData[] = await res.json();
   return (
     <main className="mx-auto max-w-4xl px-4 py-10 md:px-8 md:py-14">

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { iMyBookingData } from "@/types/MyBookingData";
 import { redirect } from "next/navigation";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const MyBookingsCard = ({ bookingData }: { bookingData: iMyBookingData }) => {
   // Bookings saved before a status existed are treated as pending.
@@ -20,8 +21,12 @@ const MyBookingsCard = ({ bookingData }: { bookingData: iMyBookingData }) => {
     ? format(parseISO(bookingData.departureDate), "MMMM d, yyyy")
     : "Not set";
 const handleCancelBooking = async () => {
+  const token = getTokenFromClient();
     const res = await fetch(`http://localhost:5000/my-bookings/${bookingData._id}`, {
-        method:"Delete"
+        method:"Delete",
+        headers: {
+          authorization: `Bearer ${token}`
+        }
     })
     const data = await res.json()
     console.log(data)
