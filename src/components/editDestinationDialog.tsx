@@ -58,14 +58,14 @@ export function EditDestinationDialog({
   );
 
   // PUTs the edited fields to the backend; refreshes the server-rendered details on success.
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function handleSubmit(e:React.SubmitEvent<HTMLElement>) {
+    e.preventDefault();
     setError(null);
     setSaving(true);
 
     try {
       const token = await getTokenFromClient();
-      const data = Object.fromEntries(new FormData(event.currentTarget));
+      const data = Object.fromEntries(new FormData(e.target));
       const payload = { ...data, category };
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/destinations/${destination._id}`,
