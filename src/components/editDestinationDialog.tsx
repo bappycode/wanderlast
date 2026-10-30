@@ -68,7 +68,7 @@ export function EditDestinationDialog({
       const data = Object.fromEntries(new FormData(event.currentTarget));
       const payload = { ...data, category };
       const res = await fetch(
-        `${process.env.SERVER_URL}/destinations/${destination._id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/destinations/${destination._id}`,
         {
           method: "PUT",
           headers: { 

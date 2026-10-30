@@ -38,7 +38,7 @@ export function DeleteDestinationButton({
     try {
       const token = await getTokenFromClient();
       const res = await fetch(
-        `${process.env.SERVER_URL}/destinations/${destinationId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/destinations/${destinationId}`,
         { method: "DELETE",
           headers: {
             authorization : `Bearer ${token}`
