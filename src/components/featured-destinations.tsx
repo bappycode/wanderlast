@@ -5,7 +5,7 @@ import { FeaturedCarousel } from "@/components/featured-carousel";
 
 async function getFeaturedDestinations(): Promise<Destination[]> {
   try {
-    const res = await fetch("http://localhost:5000/featured-destinations");
+    const res = await fetch(`${process.env.SERVER_URL}/featured-destinations`);
     if (!res.ok) return [];
     return (await res.json()) as Destination[];
   } catch {

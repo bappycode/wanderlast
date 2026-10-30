@@ -31,7 +31,7 @@ const BookingCard = (props: destinationProp) => {
       bookingDate: new Date()
 
     }
-    const res = await fetch("http://localhost:5000/booking", {
+    const res = await fetch(`${process.env.SERVER_URL}/booking`, {
       method: 'post',
       headers: {
         "Content-type" : "application/json"

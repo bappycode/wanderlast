@@ -27,7 +27,7 @@ const  getDestination = cache(
   async (id: string): Promise<DestinationDetail | null> => {
   const token = await getTokenFromServer()
   try {
-    const res = await fetch(`http://localhost:5000/destinations/${id}`,{
+    const res = await fetch(`${process.env.SERVER_URL}/destinations/${id}`,{
       headers: {
         authorization: `Bearer ${token}`
       }
@@ -40,9 +40,13 @@ const  getDestination = cache(
 }
 )
 
+type DestinationPageProps = {
+  params: Promise<{ id: string }>;
+};
+
 export async function generateMetadata({
   params,
-}: PageProps<"/destinations/[id]">): Promise<Metadata> {
+}: DestinationPageProps): Promise<Metadata> {
   const { id } = await params;
   const destination = await getDestination(id);
   return {
@@ -51,7 +55,7 @@ export async function generateMetadata({
 }
 export default async function DestinationDetailsPage({
   params,
-}: PageProps<"/destinations/[id]">) {
+}: DestinationPageProps) {
   const { id } = await params;
   const destination = await getDestination(id);
   if (!destination) {

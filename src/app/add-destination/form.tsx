@@ -37,7 +37,7 @@ export function AddDestinationForm() {
     const payload = { ...formData, category };
     const token = await getTokenFromClient()
     try {
-      const res = await fetch("http://localhost:5000/add-destination", {
+      const res = await fetch(`${process.env.SERVER_URL}/add-destination`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json" , 

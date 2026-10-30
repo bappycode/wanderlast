@@ -22,7 +22,7 @@ const MyBookingsCard = ({ bookingData }: { bookingData: iMyBookingData }) => {
     : "Not set";
 const handleCancelBooking = async () => {
   const token = getTokenFromClient();
-    const res = await fetch(`http://localhost:5000/my-bookings/${bookingData._id}`, {
+    const res = await fetch(`${process.env.SERVER_URL}/my-bookings/${bookingData._id}`, {
         method:"Delete",
         headers: {
           authorization: `Bearer ${token}`

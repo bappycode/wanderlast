@@ -10,7 +10,7 @@ export default async function AllDestinationsPage() {
   let error: string | null = null;
 
   try {
-    const res = await fetch("http://localhost:5000/destinations");
+    const res = await fetch(`${process.env.SERVER_URL}/destinations`);
     if (!res.ok) {
       error = `Request failed with status ${res.status}`;
     } else {
